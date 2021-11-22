@@ -29,6 +29,14 @@ class Todo < ActiveRecord::Base
     "#{id}. #{display_status} #{todo_text} #{display_date}"
   end
   
+  def self.due_later
+    where("last_date > ?", Date.today)
+  end
+  
+  def self.due_today
+    where("last_date = ?", Date.today)
+  end
+  
   def self.show_list
     puts "My Todo-list\n\n"
     
@@ -37,11 +45,11 @@ class Todo < ActiveRecord::Base
     puts "\n\n"
     
     puts "Due Today"
-    # FILL IN HERE
+    puts due_today.map { |todo| todo.to_display_list }
     puts "\n\n"
     
     puts "Due Later"
-    # FILL IN HERE
+    puts due_later.map { |todo| todo.to_display_list }
   end
 
 end
