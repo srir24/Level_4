@@ -10,6 +10,14 @@ class Todo < ActiveRecord::Base
     Todo.create!(todo_text: todo_task, due_date: last_date, completed: false)
   end
   
+  def self.mark_as_complete(input_todo_id)
+    #Function to update todo list as complete
+    todo_row = find(input_todo_id) #finding particular row from table
+    todo_row.completed = true  #Updating complete field to completed for above selected row
+    todo_row.save              # Saving the changes made to database
+    return todo_row
+  end
+  
   def self.show_list
     puts "My Todo-list\n\n"
     
