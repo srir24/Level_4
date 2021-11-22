@@ -18,11 +18,22 @@ class Todo < ActiveRecord::Base
     return todo_row
   end
   
+  def self.overdue
+    where("last_date < ?", Date.today)
+  end
+  
+  def to_display_list
+    #Function to display todo in the desired format
+    display_status = completed ? "[X]" : "[ ]"
+    display_date = (last_date == Date.today) ? nil : last_date
+    "#{id}. #{display_status} #{todo_text} #{display_date}"
+  end
+  
   def self.show_list
     puts "My Todo-list\n\n"
     
     puts "Overdue"
-    # FILL IN HERE
+    puts overdue.map { |todo| todo.to_display_list }
     puts "\n\n"
     
     puts "Due Today"
